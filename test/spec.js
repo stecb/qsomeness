@@ -78,4 +78,7 @@ describe('Get querystring', () => {
   it('correctly gets querystring as object if multiple params as array', () => {
     expect(qSomeness.getQuerystring('http://google.com?foo=bar&foo=baz')).to.deep.equal({ foo: ['bar', 'baz'] });
   });
+  it('correctly gets querystring as array', () => {
+    expect(qSomeness.getQuerystring('http://google.com?foo=bar&foo=baz')).to.deep.equal(['foo=bar', 'foo=baz']);
+  });
 });
