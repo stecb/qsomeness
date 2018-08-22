@@ -32,7 +32,7 @@ This is a quite nice feature as it allows to chain methods (and act as a proxy f
 ```js
 const { URLObject } = require('qsomeness');
 
-const myUrlObj = URLObject('http://google.com');
+const myUrlObj = new URLObject('http://google.com');
 
 myUrlObj
   .add({ foo: ['bar', 'baz'] })
