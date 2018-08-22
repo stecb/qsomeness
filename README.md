@@ -1,9 +1,11 @@
 # qsomeness
-A tiny tool to work with url querystrings. It also automatically encode/decode params for you.
+A tiny tool to work with url querystrings. It automatically encode/decode params.
 
 [![Build Status](https://travis-ci.org/stecb/qsomeness.svg?branch=master)](https://travis-ci.org/stecb/qsomeness)
 
 # how to
+`npm i qsomeness` and 💥
+
 If you look inside `tests/spec.js`, it should be straightforward understanding how to use it :)
 However, there's also an handy api reference.
 
@@ -90,3 +92,7 @@ const myParam = setParam('foo', 'bar');
 const myArrayParam = setParam('foo', ['bar', 'baz']);
 // myArrayParam => "foo=bar&foo=baz"
 ```
+
+## Contributing
+
+Just make a PR 🍺
