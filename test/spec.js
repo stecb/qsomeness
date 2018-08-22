@@ -134,7 +134,7 @@ describe('Get querystring', () => {
   });
 });
 
-describe.only('URLObject', () => {
+describe('URLObject', () => {
   it('instantiate a new URLObject', () => {
     const url = new qSomeness.URLObject('http://google.com');
     expect(url instanceof qSomeness.URLObject).to.be.true;
