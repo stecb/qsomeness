@@ -5,20 +5,31 @@ const qSomeness = {
       `${urlPart}?${qs.split('&').filter((val, i, self) => self.indexOf(val) === i).join('&')}` :
       urlPart;
   },
+
   setParam: (key, val) => !Array.isArray(val) ?
     `${encodeURIComponent(key)}=${encodeURIComponent(val)}` :
     val.map((v) => qSomeness.setParam(key, v)).join('&'),
+
   add: (url, { key, val }) => {
     const check = url.split('?').length > 1;
+    const newParam = qSomeness.setParam(key, val);
     return check ?
-      `${url}&${qSomeness.setParam(key, val)}` :
-      `${url}?${qSomeness.setParam(key, val)}`;
+      `${url}&${newParam}` :
+      `${url}?${newParam}`;
   },
-  update: (url, { key, val }) => {
+
+  addMultiple: (url, params) => {
     const check = url.split('?').length > 1;
-    if (check) {
+    const newParams = params.map(({ key, val }) => qSomeness.setParam(key, val)).join('&');
+    return check ?
+      `${url}&${newParams}` :
+      `${url}?${newParams}`;
+  },
+
+  update: (url, { key, val }) => {
+    const [urlPart, qs] = url.split('?');
+    if (typeof qs !== 'undefined') {
       let found = false;
-      const [urlPart, qs] = url.split('?');
       const editedQs = qs.split('&').map((qsEl) => {
         if (qsEl.split('=')[0] === key) {
           found = true;
@@ -31,15 +42,18 @@ const qSomeness = {
     }
     return `${url}?${qSomeness.setParam(key, val)}`;
   },
+
+  updateMultiple: (url, params) => params.reduce((newUrl, currParam) => qSomeness.update(newUrl, currParam), url),
+
   remove: (url, key) => {
-    const check = url.split('?').length > 1;
-    if (check) {
-      const [urlPart, qs] = url.split('?');
+    const [urlPart, qs] = url.split('?');
+    if (typeof qs !== 'undefined') {
       const newQs = qs.split('&').filter((qsEl) => qsEl.split('=')[0] !== key);
       return newQs.length === 0 ? urlPart : `${urlPart}?${newQs.join('&')}`;
     }
     return url;
   },
+
   get: (url, key) => {
     const [, qs] = url.split('?');
     if (typeof qs === 'undefined') {
@@ -53,6 +67,7 @@ const qSomeness = {
       decodeURIComponent(foundParams[0].split('=')[1]) :
       foundParams.map((p) => decodeURIComponent(p.split('=')[1]));
   },
+
   getQuerystringObject: (url) => {
     const [, qs] = url.split('?');
     if (typeof qs === 'undefined') {
@@ -70,7 +85,7 @@ const qSomeness = {
   }
 };
 
-const TO_REMOVE_DUPLICATION = ['add', 'update', 'remove'];
+const TO_REMOVE_DUPLICATION = ['add', 'addMultiple', 'update', 'updateMultiple', 'remove'];
 
 module.exports = Object.keys(qSomeness).reduce((obj, method) => {
   obj[method] = TO_REMOVE_DUPLICATION.indexOf(method) > -1 ?

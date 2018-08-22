@@ -1,5 +1,5 @@
 # qsomeness
-A zero-dependencies tiny 2.7kb tool to work with url querystrings. Works both on server and client. It automatically encode/decode params.
+A zero-dependencies tiny 3kb tool to work with url querystrings. Works both on server and client. It automatically encode/decode params.
 
 [![Build Status](https://travis-ci.org/stecb/qsomeness.svg?branch=master)](https://travis-ci.org/stecb/qsomeness)
 
@@ -12,8 +12,10 @@ However, there's also an handy api reference.
 # API reference
 
 * [add](#add)
+* [addMultiple](#addmultiple)
 * [get](#get)
 * [update](#update)
+* [updateMultiple](#updatemultiple)
 * [remove](#remove)
 * [getQuerystringObject](#getquerystringobject)
 * [setParam](#setparam)
@@ -31,6 +33,16 @@ const anotherUrl = add('http://google.com?foo=bar', { key: 'foo', val: 'baz' })
 
 const thirdUrl = add('http://google.com', { key: 'foo', val: ['bar', 'baz'] });
 // thirdUrl => "http://google.com?foo=bar&foo=baz"
+
+```
+
+addMultiple
+---
+```js
+const { addMultiple } = require('../index.js');
+
+const newUrl = addMultiple('http://google.com', [{ key: 'q', val: 'baz' }, { key: 'foo', val: 'bar' }]);
+// newUrl => "http://google.com?q=baz&foo=bar"
 
 ```
 
@@ -54,6 +66,16 @@ const { update } = require('../index.js');
 
 const newUrl = update('http://google.com?foo=bar', { key: 'foo', val: 'baz' });
 // newUrl => "http://google.com?foo=baz"
+
+```
+
+updateMultiple
+---
+```js
+const { updateMultiple } = require('../index.js');
+
+const newUrl = updateMultiple('http://google.com?foo=bar', [{ key: 'foo', val: 'baz' }, { key: 'q', val: 'bizz' }]);
+// newUrl => "http://google.com?foo=baz&q=bizz"
 
 ```
 

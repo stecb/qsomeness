@@ -1,7 +1,7 @@
 {
   "name": "qsomeness",
-  "version": "1.0.6",
-  "description": "A zero-dependencies tiny 2.7kb tool to work with url querystrings. Works both on server and client.",
+  "version": "1.0.7",
+  "description": "A zero-dependencies tiny 3kb tool to work with url querystrings. Works both on server and client.",
   "main": "index.js",
   "scripts": {
     "test": "mocha ./test"
