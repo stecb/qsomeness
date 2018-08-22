@@ -1,2 +1,2 @@
 # qsomeness
-A tiny tool to work with url querystring
+A tiny tool to work with url querystrings

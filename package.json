@@ -1,10 +1,10 @@
 {
   "name": "qsomeness",
   "version": "1.0.0",
-  "description": "A tiny tool to work with url querystring",
+  "description": "A tiny tool to work with url querystrings",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test"
+    "test": "mocha ./test"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,15 @@
   "bugs": {
     "url": "https://github.com/stecb/qsomeness/issues"
   },
-  "homepage": "https://github.com/stecb/qsomeness#readme"
+  "homepage": "https://github.com/stecb/qsomeness#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "husky": "^1.0.0-rc.13",
+    "mocha": "^5.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test"
+    }
+  }
 }
