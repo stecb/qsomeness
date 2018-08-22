@@ -23,7 +23,7 @@ However, there's also an handy api reference.
 add
 ---
 ```js
-const { add } = require('../index.js');
+const { add } = require('qsomeness');
 
 const newUrl = add('http://google.com?foo=bar', { key: 'q', val: 'baz' });
 // newUrl => "http://google.com?foo=bar&q=baz"
@@ -39,7 +39,7 @@ const thirdUrl = add('http://google.com', { key: 'foo', val: ['bar', 'baz'] });
 addMultiple
 ---
 ```js
-const { addMultiple } = require('../index.js');
+const { addMultiple } = require('qsomeness');
 
 const newUrl = addMultiple('http://google.com', [{ key: 'q', val: 'baz' }, { key: 'foo', val: 'bar' }]);
 // newUrl => "http://google.com?q=baz&foo=bar"
@@ -49,7 +49,7 @@ const newUrl = addMultiple('http://google.com', [{ key: 'q', val: 'baz' }, { key
 get
 ---
 ```js
-const { get } = require('../index.js');
+const { get } = require('qsomeness');
 
 const paramValue = get('http://google.com?foo=bar', 'foo');
 // paramValue => "bar"
@@ -62,7 +62,7 @@ const multipleParams = get('http://google.com?foo=bar&foo=baz', 'foo');
 update
 ---
 ```js
-const { update } = require('../index.js');
+const { update } = require('qsomeness');
 
 const newUrl = update('http://google.com?foo=bar', { key: 'foo', val: 'baz' });
 // newUrl => "http://google.com?foo=baz"
@@ -72,7 +72,7 @@ const newUrl = update('http://google.com?foo=bar', { key: 'foo', val: 'baz' });
 updateMultiple
 ---
 ```js
-const { updateMultiple } = require('../index.js');
+const { updateMultiple } = require('qsomeness');
 
 const newUrl = updateMultiple('http://google.com?foo=bar', [{ key: 'foo', val: 'baz' }, { key: 'q', val: 'bizz' }]);
 // newUrl => "http://google.com?foo=baz&q=bizz"
@@ -83,7 +83,7 @@ const newUrl = updateMultiple('http://google.com?foo=bar', [{ key: 'foo', val: '
 remove
 ---
 ```js
-const { remove } = require('../index.js');
+const { remove } = require('qsomeness');
 
 const newUrl = remove('http://google.com?foo=bar', 'foo');
 // newUrl => "http://google.com"
@@ -96,7 +96,7 @@ const anotherUrl = remove('http://google.com?foo=bar&q=baz', 'foo');
 getQuerystringObject
 ---
 ```js
-const { getQuerystringObject } = require('../index.js');
+const { getQuerystringObject } = require('qsomeness');
 
 const qsParamsObject = getQuerystringObject('http://google.com?foo=bar&foo=baz&q=fizz');
 // qsParamsObject => { foo: ['bar', 'baz'], q: 'fizz' }
@@ -106,7 +106,7 @@ const qsParamsObject = getQuerystringObject('http://google.com?foo=bar&foo=baz&q
 setParam
 ---
 ```js
-const { setParam } = require('../index.js');
+const { setParam } = require('qsomeness');
 
 const myParam = setParam('foo', 'bar');
 // myParam => "foo=bar"
