@@ -1,5 +1,6 @@
 # qsomeness
 A tiny tool to work with url querystrings. It also automatically encode/decode params for you.
+
 [![Build Status](https://travis-ci.org/stecb/qsomeness.svg?branch=master)](https://travis-ci.org/stecb/qsomeness)
 
 # how to
@@ -9,15 +10,10 @@ However, there's also an handy api reference.
 # API reference
 
 [add](#add)
-
 [get](#get)
-
 [update](#update)
-
 [remove](#remove)
-
 [getQuerystringObject](#getQuerystringObject)
-
 [setParam](#setParam)
 
 add
