@@ -53,12 +53,29 @@ const qSomeness = {
       foundParams[0].split('=')[1] :
       foundParams.map((p) => p.split('=')[1]);
   },
+  getQuerystring: (url, type = 'object') => {
+    const [, qs] = url.split('?');
+    if (typeof qs === 'undefined') {
+      return type === 'object' ? {} : [];
+    }
+    return type === 'object' ?
+      qs.split('&').reduce((obj, param) => {
+        const [key, val] = param.split('=');
+        if (Array.isArray(obj[key])) {
+          obj[key] = [...obj[key], val];
+        } else {
+          obj[key] = obj[key] ? [obj[key], val] : val;
+        }
+        return obj;
+      }, {}) :
+      qs.split('&');
+  },
 };
 
-const toRemoveDuplication = ['add', 'update', 'remove'];
+const TO_REMOVE_DUPLICATION = ['add', 'update', 'remove'];
 
 module.exports = Object.keys(qSomeness).reduce((obj, method) => {
-  obj[method] = toRemoveDuplication.indexOf(method) > -1 ?
+  obj[method] = TO_REMOVE_DUPLICATION.indexOf(method) > -1 ?
     (...args) => qSomeness.removeDuplication(qSomeness[method].apply(qSomeness, args)) :
     qSomeness[method];
   return obj;

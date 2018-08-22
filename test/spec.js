@@ -70,3 +70,12 @@ describe('Remove', () => {
     expect(qSomeness.remove('http://google.com?bar=foo', 'foo')).to.equal('http://google.com?bar=foo');
   });
 });
+
+describe('Get querystring', () => {
+  it('correctly gets querystring as object', () => {
+    expect(qSomeness.getQuerystring('http://google.com?foo=bar')).to.deep.equal({ foo: 'bar' });
+  });
+  it('correctly gets querystring as object if multiple params as array', () => {
+    expect(qSomeness.getQuerystring('http://google.com?foo=bar&foo=baz')).to.deep.equal({ foo: ['bar', 'baz'] });
+  });
+});
