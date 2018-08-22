@@ -1,5 +1,6 @@
 # qsomeness
 A tiny tool to work with url querystrings. It also automatically encode/decode params for you.
+[![Build Status](https://travis-ci.org/stecb/qsomeness.svg?branch=master)](https://travis-ci.org/stecb/qsomeness)
 
 # how to
 If you look inside `tests/spec.js`, it should be straightforward understanding how to use it :)
