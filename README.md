@@ -11,12 +11,12 @@ However, there's also an handy api reference.
 
 # API reference
 
-[add](#add)
-[get](#get)
-[update](#update)
-[remove](#remove)
-[getQuerystringObject](#getQuerystringObject)
-[setParam](#setParam)
+* [add](#add)
+* [get](#get)
+* [update](#update)
+* [remove](#remove)
+* [getQuerystringObject](#getquerystringobject)
+* [setParam](#setparam)
 
 add
 ---
