@@ -11,40 +11,15 @@ However, there's also an handy api reference.
 
 # API reference
 
+* [get](#get)
 * [add](#add)
 * [addMultiple](#addmultiple)
-* [get](#get)
 * [update](#update)
 * [updateMultiple](#updatemultiple)
 * [remove](#remove)
+* [removeMultiple](#removemultiple)
 * [getQuerystringObject](#getquerystringobject)
 * [setParam](#setparam)
-
-add
----
-```js
-const { add } = require('qsomeness');
-
-const newUrl = add('http://google.com?foo=bar', { key: 'q', val: 'baz' });
-// newUrl => "http://google.com?foo=bar&q=baz"
-
-const anotherUrl = add('http://google.com?foo=bar', { key: 'foo', val: 'baz' })
-// anotherUrl => "http://google.com?foo=bar&foo=baz"
-
-const thirdUrl = add('http://google.com', { key: 'foo', val: ['bar', 'baz'] });
-// thirdUrl => "http://google.com?foo=bar&foo=baz"
-
-```
-
-addMultiple
----
-```js
-const { addMultiple } = require('qsomeness');
-
-const newUrl = addMultiple('http://google.com', [{ key: 'q', val: 'baz' }, { key: 'foo', val: 'bar' }]);
-// newUrl => "http://google.com?q=baz&foo=bar"
-
-```
 
 get
 ---
@@ -59,12 +34,38 @@ const multipleParams = get('http://google.com?foo=bar&foo=baz', 'foo');
 
 ```
 
+add
+---
+```js
+const { add } = require('qsomeness');
+
+const newUrl = add('http://google.com?foo=bar', { q: 'baz' });
+// newUrl => "http://google.com?foo=bar&q=baz"
+
+const anotherUrl = add('http://google.com?foo=bar', { foo: 'baz' })
+// anotherUrl => "http://google.com?foo=bar&foo=baz"
+
+const thirdUrl = add('http://google.com', { foo: ['bar', 'baz'] });
+// thirdUrl => "http://google.com?foo=bar&foo=baz"
+
+```
+
+addMultiple
+---
+```js
+const { addMultiple } = require('qsomeness');
+
+const newUrl = addMultiple('http://google.com', [{ q: 'baz' }, { foo: 'bar' }]);
+// newUrl => "http://google.com?q=baz&foo=bar"
+
+```
+
 update
 ---
 ```js
 const { update } = require('qsomeness');
 
-const newUrl = update('http://google.com?foo=bar', { key: 'foo', val: 'baz' });
+const newUrl = update('http://google.com?foo=bar', { foo: 'baz' });
 // newUrl => "http://google.com?foo=baz"
 
 ```
@@ -74,11 +75,10 @@ updateMultiple
 ```js
 const { updateMultiple } = require('qsomeness');
 
-const newUrl = updateMultiple('http://google.com?foo=bar', [{ key: 'foo', val: 'baz' }, { key: 'q', val: 'bizz' }]);
+const newUrl = updateMultiple('http://google.com?foo=bar', [{ foo: 'baz' }, { q: 'bizz' }]);
 // newUrl => "http://google.com?foo=baz&q=bizz"
 
 ```
-
 
 remove
 ---
@@ -92,6 +92,17 @@ const anotherUrl = remove('http://google.com?foo=bar&q=baz', 'foo');
 // newUrl => "http://google.com?q=baz"
 
 ```
+
+removeMultiple
+---
+```js
+const { removeMultiple } = require('qsomeness');
+
+const newUrl = removeMultiple('http://google.com?foo=bar&foo=baz&q=string&key=val', ['foo', 'key']);
+// newUrl => "http://google.com?q=string"
+
+```
+
 
 getQuerystringObject
 ---

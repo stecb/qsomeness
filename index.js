@@ -1,3 +1,9 @@
+const getKV = (param) => {
+  const key = Object.keys(param)[0];
+  const val = param[key];
+  return { key, val };
+}
+
 const qSomeness = {
   removeDuplication: (url) => {
     const [urlPart, qs] = url.split('?');
@@ -10,8 +16,9 @@ const qSomeness = {
     `${encodeURIComponent(key)}=${encodeURIComponent(val)}` :
     val.map((v) => qSomeness.setParam(key, v)).join('&'),
 
-  add: (url, { key, val }) => {
+  add: (url, param) => {
     const check = url.split('?').length > 1;
+    const { key, val } = getKV(param);
     const newParam = qSomeness.setParam(key, val);
     return check ?
       `${url}&${newParam}` :
@@ -20,14 +27,18 @@ const qSomeness = {
 
   addMultiple: (url, params) => {
     const check = url.split('?').length > 1;
-    const newParams = params.map(({ key, val }) => qSomeness.setParam(key, val)).join('&');
+    const newParams = params.map((param) => {
+      const { key, val } = getKV(param);
+      return qSomeness.setParam(key, val);
+    }).join('&');
     return check ?
       `${url}&${newParams}` :
       `${url}?${newParams}`;
   },
 
-  update: (url, { key, val }) => {
+  update: (url, param) => {
     const [urlPart, qs] = url.split('?');
+    const { key, val } = getKV(param);
     if (typeof qs !== 'undefined') {
       let found = false;
       const editedQs = qs.split('&').map((qsEl) => {
@@ -53,6 +64,8 @@ const qSomeness = {
     }
     return url;
   },
+
+  removeMultiple: (url, keys) => keys.reduce((newUrl, key) => qSomeness.remove(newUrl, key), url),
 
   get: (url, key) => {
     const [, qs] = url.split('?');

@@ -1,6 +1,6 @@
 {
   "name": "qsomeness",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A zero-dependencies tiny 3kb tool to work with url querystrings. Works both on server and client.",
   "main": "index.js",
   "scripts": {

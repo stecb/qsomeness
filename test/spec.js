@@ -37,52 +37,52 @@ describe('Get', () => {
 
 describe('Add', () => {
   it('correctly adds a querystring key/val item', () => {
-    expect(qSomeness.add('http://google.com', { key: 'foo', val: 'bar' })).to.equal('http://google.com?foo=bar');
+    expect(qSomeness.add('http://google.com', { foo: 'bar' })).to.equal('http://google.com?foo=bar');
   });
   it('correctly adds a querystring key/val item to an url with an existing querystring', () => {
-    expect(qSomeness.add('http://google.com?foo=bar', { key: 'foo', val: 'bar2' })).to.equal('http://google.com?foo=bar&foo=bar2');
+    expect(qSomeness.add('http://google.com?foo=bar', { foo: 'bar2' })).to.equal('http://google.com?foo=bar&foo=bar2');
   });
   it('correctly adds a querystring key/val item with value as an array', () => {
-    expect(qSomeness.add('http://google.com', { key: 'foo', val: ['bar', 'bar2'] })).to.equal('http://google.com?foo=bar&foo=bar2');
+    expect(qSomeness.add('http://google.com', { foo: ['bar', 'bar2'] })).to.equal('http://google.com?foo=bar&foo=bar2');
   });
   it('correctly adds a querystring key/val item with value as an array to an existing querystring', () => {
-    expect(qSomeness.add('http://google.com?foo=bar', { key: 'foo', val: ['bar2', 'baz'] })).to.equal('http://google.com?foo=bar&foo=bar2&foo=baz');
+    expect(qSomeness.add('http://google.com?foo=bar', { foo: ['bar2', 'baz'] })).to.equal('http://google.com?foo=bar&foo=bar2&foo=baz');
   });
   it('correctly handles duplication by removing it', () => {
-    expect(qSomeness.add('http://google.com?foo=bar', { key: 'foo', val: ['bar', 'baz'] })).to.equal('http://google.com?foo=bar&foo=baz');
+    expect(qSomeness.add('http://google.com?foo=bar', { foo: ['bar', 'baz'] })).to.equal('http://google.com?foo=bar&foo=baz');
   });
 });
 
 describe('Add multiple', () => {
   it('correctly adds a querystring key/val array of items', () => {
-    expect(qSomeness.addMultiple('http://google.com', [{ key: 'foo', val: 'bar' }, { key: 'q', val: 'baz' }])).to.equal('http://google.com?foo=bar&q=baz');
+    expect(qSomeness.addMultiple('http://google.com', [{ foo: 'bar' }, { q: 'baz' }])).to.equal('http://google.com?foo=bar&q=baz');
   });
   it('correctly adds a querystring key/val array of items to existing querystring', () => {
-    expect(qSomeness.addMultiple('http://google.com?q=bar', [{ key: 'foo', val: 'bar' }, { key: 'q', val: 'baz' }])).to.equal('http://google.com?q=bar&foo=bar&q=baz');
+    expect(qSomeness.addMultiple('http://google.com?q=bar', [{ foo: 'bar' }, { q: 'baz' }])).to.equal('http://google.com?q=bar&foo=bar&q=baz');
   });
 });
 
 describe('Update', () => {
   it('correctly adds a querystring param if no param was on the querystring', () => {
-    expect(qSomeness.update('http://google.com', { key: 'foo', val: 'bar' })).to.equal('http://google.com?foo=bar');
+    expect(qSomeness.update('http://google.com', { foo: 'bar' })).to.equal('http://google.com?foo=bar');
   });
   it('correctly updates a querystring param', () => {
-    expect(qSomeness.update('http://google.com?foo=bar', { key: 'foo', val: 'baz' })).to.equal('http://google.com?foo=baz');
+    expect(qSomeness.update('http://google.com?foo=bar', { foo: 'baz' })).to.equal('http://google.com?foo=baz');
   });
   it('correctly updates a querystring param via setting an array of params', () => {
-    expect(qSomeness.update('http://google.com?foo=bar', { key: 'foo', val: ['baz', 'boz'] })).to.equal('http://google.com?foo=baz&foo=boz');
+    expect(qSomeness.update('http://google.com?foo=bar', { foo: ['baz', 'boz'] })).to.equal('http://google.com?foo=baz&foo=boz');
   });
 });
 
 describe('Update multiple', () => {
   it('correctly updates multiple querystring params', () => {
-    expect(qSomeness.updateMultiple('http://google.com?foo=bar&q=baz', [{ key: 'foo', val: 'baz' }, { key: 'q', val: 'bizz' }])).to.equal('http://google.com?foo=baz&q=bizz');
+    expect(qSomeness.updateMultiple('http://google.com?foo=bar&q=baz', [{ foo: 'baz' }, { q: 'bizz' }])).to.equal('http://google.com?foo=baz&q=bizz');
   });
   it('correctly adds multiple querystring params if noone is present on the url', () => {
-    expect(qSomeness.updateMultiple('http://google.com', [{ key: 'foo', val: 'baz' }, { key: 'q', val: 'bizz' }])).to.equal('http://google.com?foo=baz&q=bizz');
+    expect(qSomeness.updateMultiple('http://google.com', [{ foo: 'baz' }, { q: 'bizz' }])).to.equal('http://google.com?foo=baz&q=bizz');
   });
   it('correctly updates and adds', () => {
-    expect(qSomeness.updateMultiple('http://google.com?foo=bar', [{ key: 'foo', val: 'baz' }, { key: 'q', val: 'bizz' }])).to.equal('http://google.com?foo=baz&q=bizz');
+    expect(qSomeness.updateMultiple('http://google.com?foo=bar', [{ foo: 'baz' }, { q: 'bizz' }])).to.equal('http://google.com?foo=baz&q=bizz');
   });
 });
 
@@ -95,6 +95,15 @@ describe('Remove', () => {
   });
   it('correctly returns the url if no qs params match the provided key', () => {
     expect(qSomeness.remove('http://google.com?bar=foo', 'foo')).to.equal('http://google.com?bar=foo');
+  });
+});
+
+describe('Remove multiple', () => {
+  it('correctly removes multiple params', () => {
+    expect(qSomeness.removeMultiple('http://google.com?foo=bar&foo=baz', ['foo', 'baz'])).to.equal('http://google.com');
+  });
+  it('correctly removes multiple params keeping other params', () => {
+    expect(qSomeness.removeMultiple('http://google.com?foo=bar&foo=baz&q=string&key=val', ['foo', 'key'])).to.equal('http://google.com?q=string');
   });
 });
 
