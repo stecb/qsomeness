@@ -67,6 +67,21 @@ const qSomeness = {
 
   removeMultiple: (url, keys) => keys.reduce((newUrl, key) => qSomeness.remove(newUrl, key), url),
 
+  removeSingleParam: (url, param) => {
+    const [urlPart, qs] = url.split('?');
+    if (typeof qs !== 'undefined') {
+      const newQs = qs.split('&').filter((qsEl) => {
+        const [key, val] = qsEl.split('=');
+        const { key: paramKey, val: paramVal } = getKV(param);
+        return `${key}${val}` !== `${paramKey}${paramVal}`;
+      });
+      return newQs.length === 0 ? urlPart : `${urlPart}?${newQs.join('&')}`;
+    }
+    return url;
+  },
+
+  removeMultipleParams: (url, params) => params.reduce((newUrl, param) => qSomeness.removeSingleParam(newUrl, param), url),
+
   get: (url, key) => {
     const [, qs] = url.split('?');
     if (typeof qs === 'undefined') {
@@ -98,11 +113,47 @@ const qSomeness = {
   }
 };
 
-const TO_REMOVE_DUPLICATION = ['add', 'addMultiple', 'update', 'updateMultiple', 'remove'];
+const TO_REMOVE_DUPLICATION = [
+  'add', 'addMultiple', 'update',
+  'updateMultiple', 'remove', 'removeMultiple',
+  'removeSingleParam', 'removeMultipleParams'
+];
 
-module.exports = Object.keys(qSomeness).reduce((obj, method) => {
+const ENHANCED_METHODS = Object.keys(qSomeness).reduce((obj, method) => {
   obj[method] = TO_REMOVE_DUPLICATION.indexOf(method) > -1 ?
     (...args) => qSomeness.removeDuplication(qSomeness[method].apply(qSomeness, args)) :
     qSomeness[method];
   return obj;
 }, {});
+
+const CHAINABLE = [
+  'removeDuplication', 'add', 'addMultiple',
+  'update', 'updateMultiple', 'remove',
+  'removeMultiple', 'removeSingleParam', 'removeMultipleParams'
+];
+
+function URLObject(url) {
+  this.url = url;
+}
+
+Object.keys(qSomeness).forEach((method) => {
+  URLObject.prototype[method] = function (...args) {
+    const isChainable = CHAINABLE.indexOf(method) > -1;
+    const toRemoveDuplication = TO_REMOVE_DUPLICATION.indexOf(method) > -1;
+    if (isChainable) {
+      this.url = qSomeness[method](this.url, ...args);
+      this.url = toRemoveDuplication ? qSomeness.removeDuplication(this.url) : this.url;
+      return this;
+    }
+    return qSomeness[method](this.url, ...args);
+  }
+});
+
+URLObject.prototype.getUrl = function() {
+  return this.url;
+}
+
+module.exports = {
+  ...ENHANCED_METHODS,
+  URLObject,
+};

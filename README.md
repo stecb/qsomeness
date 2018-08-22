@@ -1,5 +1,5 @@
 # qsomeness
-A zero-dependencies tiny 3kb tool to work with url querystrings. Works both on server and client. It automatically encode/decode params.
+A zero-dependencies tiny < 5kb tool to work with url querystrings. Works both on server and client. It automatically encode/decode params.
 
 [![Build Status](https://travis-ci.org/stecb/qsomeness.svg?branch=master)](https://travis-ci.org/stecb/qsomeness)
 
@@ -11,6 +11,7 @@ However, there's also an handy api reference.
 
 # API reference
 
+* [URLObject](#urlobject)
 * [get](#get)
 * [add](#add)
 * [addMultiple](#addmultiple)
@@ -18,8 +19,37 @@ However, there's also an handy api reference.
 * [updateMultiple](#updatemultiple)
 * [remove](#remove)
 * [removeMultiple](#removemultiple)
+* [removeSingleParam](#removesingleparam)
+* [removeMultipleParams](#removemultipleparams)
 * [getQuerystringObject](#getquerystringobject)
 * [setParam](#setparam)
+
+URLObject
+---
+
+This is a quite nice feature as it allows to chain methods (and act as a proxy for static library methods) by setting an instance of URLObject. So it's quite useful if you want to do multiple things on an url w/out creating a string each time, and to keep it on a single instance. Let's see an example:
+
+```js
+const { URLObject } = require('qsomeness');
+
+const myUrlObj = URLObject('http://google.com');
+
+myUrlObj
+  .add({ foo: ['bar', 'baz'] })
+  .update({ foo: ['baz', 'boz'] })
+  // .addMultiple
+  // .updateMultiple
+  // .remove
+  // .removeMultiple
+  // .removeSingleParam
+  // .removeMultipleParams
+  ;
+
+console.log(myUrlObj.getUrl()); // 'http://google.com?foo=baz&foo=boz'
+    
+console.log(myUrlObj.getQuerystringObject()); // { foo: ['baz', 'boz'] };
+
+```
 
 get
 ---
@@ -100,6 +130,26 @@ const { removeMultiple } = require('qsomeness');
 
 const newUrl = removeMultiple('http://google.com?foo=bar&foo=baz&q=string&key=val', ['foo', 'key']);
 // newUrl => "http://google.com?q=string"
+
+```
+
+removeSingleParam
+---
+```js
+const { removeSingleParam } = require('qsomeness');
+
+const newUrl = removeSingleParam('http://google.com?foo=bar&foo=baz', { foo: 'bar' });
+// newUrl => "http://google.com?foo=baz"
+
+```
+
+removeMultipleParams
+---
+```js
+const { removeMultipleParams } = require('qsomeness');
+
+const newUrl = removeMultipleParams('http://google.com?foo=bar&foo=baz&q=string', [{ foo: 'bar' }, { q: 'string' }]);
+// newUrl => "http://google.com?foo=baz"
 
 ```
 

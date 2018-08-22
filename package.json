@@ -1,7 +1,7 @@
 {
   "name": "qsomeness",
-  "version": "1.0.9",
-  "description": "A zero-dependencies tiny 3kb tool to work with url querystrings. Works both on server and client.",
+  "version": "1.0.10",
+  "description": "A zero-dependencies tiny < 5kb tool to work with url querystrings. Works both on server and client.",
   "main": "index.js",
   "scripts": {
     "test": "mocha ./test"
@@ -13,7 +13,12 @@
   "keywords": [
     "javascript",
     "querystring",
-    "url"
+    "url",
+    "server",
+    "client",
+    "query-string",
+    "parameters",
+    "node"
   ],
   "author": "Stefano Ceschi Berrini <@stecb>",
   "license": "MIT",

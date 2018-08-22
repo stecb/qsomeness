@@ -107,6 +107,18 @@ describe('Remove multiple', () => {
   });
 });
 
+describe('Remove single full param', () => {
+  it('correctly removes a querystring full key/value param', () => {
+    expect(qSomeness.removeSingleParam('http://google.com?foo=bar&foo=baz', { foo: 'bar' })).to.equal('http://google.com?foo=baz');
+  });
+});
+
+describe('Remove multiple full param', () => {
+  it('correctly removes multiple querystring full key/value params', () => {
+    expect(qSomeness.removeMultipleParams('http://google.com?foo=bar&foo=baz&q=string', [{ foo: 'bar' }, { q: 'string' }])).to.equal('http://google.com?foo=baz');
+  });
+});
+
 describe('Get querystring', () => {
   it('correctly gets querystring as object', () => {
     expect(qSomeness.getQuerystringObject('http://google.com?foo=bar')).to.deep.equal({ foo: 'bar' });
@@ -119,5 +131,20 @@ describe('Get querystring', () => {
   });
   it('correctly returns an object with encoded values', () => {
     expect(qSomeness.getQuerystringObject('http://google.com?foo=bar%20baz')).to.deep.equal({ foo: 'bar baz'});
+  });
+});
+
+describe.only('URLObject', () => {
+  it('instantiate a new URLObject', () => {
+    const url = new qSomeness.URLObject('http://google.com');
+    expect(url instanceof qSomeness.URLObject).to.be.true;
+  });
+  it('chain methods', () => {
+    const url = new qSomeness.URLObject('http://google.com');
+    url
+      .add({ foo: ['bar', 'baz'] })
+      .update({ foo: ['baz', 'boz'] });
+    expect(url.getUrl()).to.equal('http://google.com?foo=baz&foo=boz');
+    expect(url.getQuerystringObject()).to.deep.equal({ foo: ['baz', 'boz']});
   });
 });
