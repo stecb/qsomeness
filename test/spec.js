@@ -139,6 +139,13 @@ describe('URLObject', () => {
     const url = new qSomeness.URLObject('http://google.com');
     expect(url instanceof qSomeness.URLObject).to.be.true;
   });
+  it('should throw if not used new', () => {
+    try {
+      const url = qSomeness.URLObject('http://google.com');
+    } catch (error) {
+      expect(error.message).to.equal('You should use the new keyword!');
+    }
+  });
   it('chain methods', () => {
     const url = new qSomeness.URLObject('http://google.com');
     url

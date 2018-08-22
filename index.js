@@ -133,6 +133,9 @@ const CHAINABLE = [
 ];
 
 function URLObject(url) {
+  if (!(this instanceof URLObject)) {
+    throw new Error('You should use the new keyword!');
+  }
   this.url = url;
 }
 
@@ -153,7 +156,4 @@ URLObject.prototype.getUrl = function() {
   return this.url;
 }
 
-module.exports = {
-  ...ENHANCED_METHODS,
-  URLObject,
-};
+module.exports = Object.assign({}, ENHANCED_METHODS, { URLObject });
