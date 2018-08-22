@@ -73,12 +73,18 @@ describe('Remove', () => {
 
 describe('Get querystring', () => {
   it('correctly gets querystring as object', () => {
-    expect(qSomeness.getQuerystring('http://google.com?foo=bar')).to.deep.equal({ foo: 'bar' });
+    expect(qSomeness.getQuerystringObject('http://google.com?foo=bar')).to.deep.equal({ foo: 'bar' });
   });
   it('correctly gets querystring as object if multiple params as array', () => {
-    expect(qSomeness.getQuerystring('http://google.com?foo=bar&foo=baz')).to.deep.equal({ foo: ['bar', 'baz'] });
+    expect(qSomeness.getQuerystringObject('http://google.com?foo=bar&foo=baz')).to.deep.equal({ foo: ['bar', 'baz'] });
+  });
+  it('correctly returns empty object if no querystring', () => {
+    expect(qSomeness.getQuerystringObject('http://google.com')).to.deep.equal({});
   });
   it('correctly gets querystring as array', () => {
-    expect(qSomeness.getQuerystring('http://google.com?foo=bar&foo=baz')).to.deep.equal(['foo=bar', 'foo=baz']);
+    expect(qSomeness.getQuerystringArray('http://google.com?foo=bar&foo=baz')).to.deep.equal(['foo=bar', 'foo=baz']);
+  });
+  it('correctly returns empty array if no querystring', () => {
+    expect(qSomeness.getQuerystringArray('http://google.com')).to.deep.equal([]);
   });
 });

@@ -53,13 +53,12 @@ const qSomeness = {
       foundParams[0].split('=')[1] :
       foundParams.map((p) => p.split('=')[1]);
   },
-  getQuerystring: (url, type = 'object') => {
+  getQuerystringObject: (url) => {
     const [, qs] = url.split('?');
     if (typeof qs === 'undefined') {
-      return type === 'object' ? {} : [];
+      return {};
     }
-    return type === 'object' ?
-      qs.split('&').reduce((obj, param) => {
+    return qs.split('&').reduce((obj, param) => {
         const [key, val] = param.split('=');
         if (Array.isArray(obj[key])) {
           obj[key] = [...obj[key], val];
@@ -67,8 +66,14 @@ const qSomeness = {
           obj[key] = obj[key] ? [obj[key], val] : val;
         }
         return obj;
-      }, {}) :
-      qs.split('&');
+      }, {});
+  },
+  getQuerystringArray: (url) => {
+    const [, qs] = url.split('?');
+    if (typeof qs === 'undefined') {
+      return [];
+    }
+    return qs.split('&');
   },
 };
 
