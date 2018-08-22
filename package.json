@@ -1,0 +1,24 @@
+{
+  "name": "qsomeness",
+  "version": "1.0.0",
+  "description": "A tiny tool to work with url querystring",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stecb/qsomeness.git"
+  },
+  "keywords": [
+    "javascript",
+    "querystring",
+    "url"
+  ],
+  "author": "Stefano Ceschi Berrini <@stecb>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stecb/qsomeness/issues"
+  },
+  "homepage": "https://github.com/stecb/qsomeness#readme"
+}
