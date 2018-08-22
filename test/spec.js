@@ -8,12 +8,15 @@ describe('Remove duplication', () => {
   });
 });
 
-describe('Get Param', () => {
+describe('Set Param', () => {
   it('correctly returns a querystring param, given key and value', () => {
-    expect(qSomeness.getParam('foo', 'bar')).to.equal('foo=bar');
+    expect(qSomeness.setParam('foo', 'bar')).to.equal('foo=bar');
   });
   it('correctly returns a querystring param, given key and value as array', () => {
-    expect(qSomeness.getParam('foo', ['bar', 'baz'])).to.equal('foo=bar&foo=baz');
+    expect(qSomeness.setParam('foo', ['bar', 'baz'])).to.equal('foo=bar&foo=baz');
+  });
+  it('correctly returns a querystring param, encoded', () => {
+    expect(qSomeness.setParam('foo', 'bar baz')).to.equal('foo=bar%20baz');
   });
 });
 
@@ -26,6 +29,9 @@ describe('Get', () => {
   });
   it('correctly handles no params', () => {
     expect(qSomeness.get('http://google.com?foo=bar', 'bar')).to.equal('');
+  });
+  it('correctly return decoded param', () => {
+    expect(qSomeness.get('http://google.com?foo=bar%20baz', 'foo')).to.equal('bar baz');
   });
 });
 
@@ -81,10 +87,7 @@ describe('Get querystring', () => {
   it('correctly returns empty object if no querystring', () => {
     expect(qSomeness.getQuerystringObject('http://google.com')).to.deep.equal({});
   });
-  it('correctly gets querystring as array', () => {
-    expect(qSomeness.getQuerystringArray('http://google.com?foo=bar&foo=baz')).to.deep.equal(['foo=bar', 'foo=baz']);
-  });
-  it('correctly returns empty array if no querystring', () => {
-    expect(qSomeness.getQuerystringArray('http://google.com')).to.deep.equal([]);
+  it('correctly returns an object with encoded values', () => {
+    expect(qSomeness.getQuerystringObject('http://google.com?foo=bar%20baz')).to.deep.equal({ foo: 'bar baz'});
   });
 });

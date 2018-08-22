@@ -1,92 +1,95 @@
 # qsomeness
-A tiny tool to work with url querystrings
+A tiny tool to work with url querystrings. It also automatically encode/decode params for you.
 
 # how to
-from `tests/spec.js`, should be straightforward how to use it :)
+If you look inside `tests/spec.js`, it should be straightforward understanding how to use it :)
+However, there's also an handy api reference.
 
-```es6
+# API reference
 
-const expect = require('chai').expect;
+[add](#add)
 
-const qSomeness = require('../index.js');
+[get](#get)
 
-describe('Remove duplication', () => {
-  it('correctly removes duplication from querystring params', () => {
-    expect(qSomeness.removeDuplication('http://google.com?foo=bar&foo=bar')).to.equal('http://google.com?foo=bar');
-  });
-});
+[update](#update)
 
-describe('Get Param', () => {
-  it('correctly returns a querystring param, given key and value', () => {
-    expect(qSomeness.getParam('foo', 'bar')).to.equal('foo=bar');
-  });
-  it('correctly returns a querystring param, given key and value as array', () => {
-    expect(qSomeness.getParam('foo', ['bar', 'baz'])).to.equal('foo=bar&foo=baz');
-  });
-});
+[remove](#remove)
 
-describe('Get', () => {
-  it('correctly gets an url parameter value', () => {
-    expect(qSomeness.get('http://google.com?foo=bar', 'foo')).to.equal('bar');
-  });
-  it('correctly gets multiple url parameter values', () => {
-    expect(qSomeness.get('http://google.com?foo=bar&foo=bar2', 'foo')).to.deep.equal(['bar', 'bar2']);
-  });
-  it('correctly handles no params', () => {
-    expect(qSomeness.get('http://google.com?foo=bar', 'bar')).to.equal('');
-  });
-});
+[getQuerystringObject](#getQuerystringObject)
 
-describe('Add', () => {
-  it('correctly adds a querystring key/val item', () => {
-    expect(qSomeness.add('http://google.com', { key: 'foo', val: 'bar' })).to.equal('http://google.com?foo=bar');
-  });
-  it('correctly adds a querystring key/val item to an url with an existing querystring', () => {
-    expect(qSomeness.add('http://google.com?foo=bar', { key: 'foo', val: 'bar2' })).to.equal('http://google.com?foo=bar&foo=bar2');
-  });
-  it('correctly adds a querystring key/val item with value as an array', () => {
-    expect(qSomeness.add('http://google.com', { key: 'foo', val: ['bar', 'bar2'] })).to.equal('http://google.com?foo=bar&foo=bar2');
-  });
-  it('correctly adds a querystring key/val item with value as an array to an existing querystring', () => {
-    expect(qSomeness.add('http://google.com?foo=bar', { key: 'foo', val: ['bar2', 'baz'] })).to.equal('http://google.com?foo=bar&foo=bar2&foo=baz');
-  });
-  it('correctly handles duplication by removing it', () => {
-    expect(qSomeness.add('http://google.com?foo=bar', { key: 'foo', val: ['bar', 'baz'] })).to.equal('http://google.com?foo=bar&foo=baz');
-  });
-});
+[setParam](#setParam)
 
-describe('Update', () => {
-  it('correctly adds a querystring param if no param was on the querystring', () => {
-    expect(qSomeness.update('http://google.com', { key: 'foo', val: 'bar' })).to.equal('http://google.com?foo=bar');
-  });
-  it('correctly updates a querystring param', () => {
-    expect(qSomeness.update('http://google.com?foo=bar', { key: 'foo', val: 'baz' })).to.equal('http://google.com?foo=baz');
-  });
-  it('correctly updates a querystring param via setting an array of params', () => {
-    expect(qSomeness.update('http://google.com?foo=bar', { key: 'foo', val: ['baz', 'boz'] })).to.equal('http://google.com?foo=baz&foo=boz');
-  });
-});
+add
+---
+```js
+const { add } = require('../index.js');
 
-describe('Remove', () => {
-  it('correctly removes a querystring param', () => {
-    expect(qSomeness.remove('http://google.com?foo=bar', 'foo')).to.equal('http://google.com');
-  });
-  it('correctly removes a querystring param if multiple', () => {
-    expect(qSomeness.remove('http://google.com?foo=bar&foo=baz', 'foo')).to.equal('http://google.com');
-  });
-  it('correctly returns the url if no qs params match the provided key', () => {
-    expect(qSomeness.remove('http://google.com?bar=foo', 'foo')).to.equal('http://google.com?bar=foo');
-  });
-});
+const newUrl = add('http://google.com?foo=bar', { key: 'q', val: 'baz' });
+// newUrl => "http://google.com?foo=bar&q=baz"
 
-describe('Get querystring', () => {
-  it('correctly gets querystring as object', () => {
-    expect(qSomeness.getQuerystring('http://google.com?foo=bar')).to.deep.equal({ foo: 'bar' });
-  });
-  it('correctly gets querystring as object if multiple params as array', () => {
-    expect(qSomeness.getQuerystring('http://google.com?foo=bar&foo=baz')).to.deep.equal({ foo: ['bar', 'baz'] });
-  });
-});
+const anotherUrl = add('http://google.com?foo=bar', { key: 'foo', val: 'baz' })
+// anotherUrl => "http://google.com?foo=bar&foo=baz"
+
+const thirdUrl = add('http://google.com', { key: 'foo', val: ['bar', 'baz'] });
+// thirdUrl => "http://google.com?foo=bar&foo=baz"
+
+```
+
+get
+---
+```js
+const { get } = require('../index.js');
+
+const paramValue = get('http://google.com?foo=bar', 'foo');
+// paramValue => "bar"
+
+const multipleParams = get('http://google.com?foo=bar&foo=baz', 'foo');
+// multipleParams => ['bar','baz']
+
+```
+
+update
+---
+```js
+const { update } = require('../index.js');
+
+const newUrl = update('http://google.com?foo=bar', { key: 'foo', val: 'baz' });
+// newUrl => "http://google.com?foo=baz"
+
+```
 
 
+remove
+---
+```js
+const { remove } = require('../index.js');
+
+const newUrl = remove('http://google.com?foo=bar', 'foo');
+// newUrl => "http://google.com"
+
+const anotherUrl = remove('http://google.com?foo=bar&q=baz', 'foo');
+// newUrl => "http://google.com?q=baz"
+
+```
+
+getQuerystringObject
+---
+```js
+const { getQuerystringObject } = require('../index.js');
+
+const qsParamsObject = getQuerystringObject('http://google.com?foo=bar&foo=baz&q=fizz');
+// qsParamsObject => { foo: ['bar', 'baz'], q: 'fizz' }
+
+```
+
+setParam
+---
+```js
+const { setParam } = require('../index.js');
+
+const myParam = setParam('foo', 'bar');
+// myParam => "foo=bar"
+
+const myArrayParam = setParam('foo', ['bar', 'baz']);
+// myArrayParam => "foo=bar&foo=baz"
 ```

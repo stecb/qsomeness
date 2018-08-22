@@ -5,14 +5,14 @@ const qSomeness = {
       `${urlPart}?${qs.split('&').filter((val, i, self) => self.indexOf(val) === i).join('&')}` :
       urlPart;
   },
-  getParam: (key, val) => !Array.isArray(val) ?
+  setParam: (key, val) => !Array.isArray(val) ?
     `${encodeURIComponent(key)}=${encodeURIComponent(val)}` :
-    val.map((v) => qSomeness.getParam(key, v)).join('&'),
+    val.map((v) => qSomeness.setParam(key, v)).join('&'),
   add: (url, { key, val }) => {
     const check = url.split('?').length > 1;
     return check ?
-      `${url}&${qSomeness.getParam(key, val)}` :
-      `${url}?${qSomeness.getParam(key, val)}`;
+      `${url}&${qSomeness.setParam(key, val)}` :
+      `${url}?${qSomeness.setParam(key, val)}`;
   },
   update: (url, { key, val }) => {
     const check = url.split('?').length > 1;
@@ -22,14 +22,14 @@ const qSomeness = {
       const editedQs = qs.split('&').map((qsEl) => {
         if (qsEl.split('=')[0] === key) {
           found = true;
-          return qSomeness.getParam(key, val);
+          return qSomeness.setParam(key, val);
         }
         return qsEl;
       });
-      const newQs = found ? editedQs : [...editedQs, qSomeness.getParam(key, val)];
+      const newQs = found ? editedQs : [...editedQs, qSomeness.setParam(key, val)];
       return `${urlPart}?${newQs.join('&')}`;
     }
-    return `${url}?${qSomeness.getParam(key, val)}`;
+    return `${url}?${qSomeness.setParam(key, val)}`;
   },
   remove: (url, key) => {
     const check = url.split('?').length > 1;
@@ -50,8 +50,8 @@ const qSomeness = {
       return '';
     }
     return foundParams.length === 1 ?
-      foundParams[0].split('=')[1] :
-      foundParams.map((p) => p.split('=')[1]);
+      decodeURIComponent(foundParams[0].split('=')[1]) :
+      foundParams.map((p) => decodeURIComponent(p.split('=')[1]));
   },
   getQuerystringObject: (url) => {
     const [, qs] = url.split('?');
@@ -61,20 +61,13 @@ const qSomeness = {
     return qs.split('&').reduce((obj, param) => {
         const [key, val] = param.split('=');
         if (Array.isArray(obj[key])) {
-          obj[key] = [...obj[key], val];
+          obj[key] = [...obj[key], decodeURIComponent(val)];
         } else {
-          obj[key] = obj[key] ? [obj[key], val] : val;
+          obj[key] = obj[key] ? [obj[key], decodeURIComponent(val)] : decodeURIComponent(val);
         }
         return obj;
       }, {});
-  },
-  getQuerystringArray: (url) => {
-    const [, qs] = url.split('?');
-    if (typeof qs === 'undefined') {
-      return [];
-    }
-    return qs.split('&');
-  },
+  }
 };
 
 const TO_REMOVE_DUPLICATION = ['add', 'update', 'remove'];
