@@ -2,6 +2,21 @@ const expect = require('chai').expect;
 
 const qSomeness = require('../index.js');
 
+describe('Remove duplication', () => {
+  it('correctly removes duplication from querystring params', () => {
+    expect(qSomeness.removeDuplication('http://google.com?foo=bar&foo=bar')).to.equal('http://google.com?foo=bar');
+  });
+});
+
+describe('Get Param', () => {
+  it('correctly returns a querystring param, given key and value', () => {
+    expect(qSomeness.getParam('foo', 'bar')).to.equal('foo=bar');
+  });
+  it('correctly returns a querystring param, given key and value as array', () => {
+    expect(qSomeness.getParam('foo', ['bar', 'baz'])).to.equal('foo=bar&foo=baz');
+  });
+});
+
 describe('Get', () => {
   it('correctly gets an url parameter value', () => {
     expect(qSomeness.get('http://google.com?foo=bar', 'foo')).to.equal('bar');
@@ -44,8 +59,14 @@ describe('Update', () => {
   });
 });
 
-describe.only('Remove', () => {
+describe('Remove', () => {
   it('correctly removes a querystring param', () => {
     expect(qSomeness.remove('http://google.com?foo=bar', 'foo')).to.equal('http://google.com');
+  });
+  it('correctly removes a querystring param if multiple', () => {
+    expect(qSomeness.remove('http://google.com?foo=bar&foo=baz', 'foo')).to.equal('http://google.com');
+  });
+  it('correctly returns the url if no qs params match the provided key', () => {
+    expect(qSomeness.remove('http://google.com?bar=foo', 'foo')).to.equal('http://google.com?bar=foo');
   });
 });

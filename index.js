@@ -36,9 +36,9 @@ const qSomeness = {
     if (check) {
       const [urlPart, qs] = url.split('?');
       const newQs = qs.split('&').filter((qsEl) => qsEl.split('=')[0] !== key);
-      return `${urlPart}?${newQs.join('&')}`;
+      return newQs.length === 0 ? urlPart : `${urlPart}?${newQs.join('&')}`;
     }
-    return /\?$/.test(url) ? url.substring(0, url.length - 1) : url;
+    return url;
   },
   get: (url, key) => {
     const [, qs] = url.split('?');
