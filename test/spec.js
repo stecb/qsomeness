@@ -22,7 +22,7 @@ describe('Set Param', () => {
 
 describe('Get', () => {
   it('correctly gets an url parameter value', () => {
-    expect(qSomeness.get('http://google.com?foo=bar', 'foo')).to.equal('bar');
+    expect(qSomeness.get('http://google.com?foo=bar', 'foo')).to.deep.equal(['bar']);
   });
   it('correctly gets multiple url parameter values', () => {
     expect(qSomeness.get('http://google.com?foo=bar&foo=bar2', 'foo')).to.deep.equal(['bar', 'bar2']);
@@ -31,7 +31,7 @@ describe('Get', () => {
     expect(qSomeness.get('http://google.com?foo=bar', 'bar')).to.equal('');
   });
   it('correctly return decoded param', () => {
-    expect(qSomeness.get('http://google.com?foo=bar%20baz', 'foo')).to.equal('bar baz');
+    expect(qSomeness.get('http://google.com?foo=bar%20baz', 'foo')).to.deep.equal(['bar baz']);
   });
 });
 

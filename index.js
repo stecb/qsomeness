@@ -92,7 +92,7 @@ const qSomeness = {
       return '';
     }
     return foundParams.length === 1 ?
-      decodeURIComponent(foundParams[0].split('=')[1]) :
+      [decodeURIComponent(foundParams[0].split('=')[1])] :
       foundParams.map((p) => decodeURIComponent(p.split('=')[1]));
   },
 

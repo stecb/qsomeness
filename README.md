@@ -57,10 +57,10 @@ get
 const { get } = require('qsomeness');
 
 const paramValue = get('http://google.com?foo=bar', 'foo');
-// paramValue => "bar"
+// paramValue => ["bar"]
 
 const multipleParams = get('http://google.com?foo=bar&foo=baz', 'foo');
-// multipleParams => ['bar','baz']
+// multipleParams => ["bar","baz"]
 
 ```
 
