@@ -113,24 +113,22 @@ const qSomeness = {
   }
 };
 
-const TO_REMOVE_DUPLICATION = [
-  'add', 'addMultiple', 'update',
-  'updateMultiple', 'remove', 'removeMultiple',
-  'removeSingleParam', 'removeMultipleParams'
-];
-
-const ENHANCED_METHODS = Object.keys(qSomeness).reduce((obj, method) => {
-  obj[method] = TO_REMOVE_DUPLICATION.indexOf(method) > -1 ?
-    (...args) => qSomeness.removeDuplication(qSomeness[method].apply(qSomeness, args)) :
-    qSomeness[method];
-  return obj;
-}, {});
-
 const CHAINABLE = [
   'removeDuplication', 'add', 'addMultiple',
   'update', 'updateMultiple', 'remove',
   'removeMultiple', 'removeSingleParam', 'removeMultipleParams'
 ];
+
+const ENHANCED_METHODS = Object.assign({}, qSomeness, {
+  add: (...args) => qSomeness.removeDuplication(qSomeness.add(...args)),
+  addMultiple: (...args) => qSomeness.removeDuplication(qSomeness.addMultiple(...args)),
+  update: (...args) => qSomeness.removeDuplication(qSomeness.update(...args)),
+  updateMultiple: (...args) => qSomeness.removeDuplication(qSomeness.updateMultiple(...args)),
+  remove: (...args) => qSomeness.removeDuplication(qSomeness.remove(...args)),
+  removeMultiple: (...args) => qSomeness.removeDuplication(qSomeness.removeMultiple(...args)),
+  removeSingleParam: (...args) => qSomeness.removeDuplication(qSomeness.removeSingleParam(...args)),
+  removeMultipleParams: (...args) => qSomeness.removeDuplication(qSomeness.removeMultipleParams(...args)),
+});
 
 function URLObject(url) {
   if (!(this instanceof URLObject)) {
@@ -139,16 +137,14 @@ function URLObject(url) {
   this.url = url;
 }
 
-Object.keys(qSomeness).forEach((method) => {
+Object.keys(ENHANCED_METHODS).forEach((method) => {
   URLObject.prototype[method] = function (...args) {
     const isChainable = CHAINABLE.indexOf(method) > -1;
-    const toRemoveDuplication = TO_REMOVE_DUPLICATION.indexOf(method) > -1;
     if (isChainable) {
-      this.url = qSomeness[method](this.url, ...args);
-      this.url = toRemoveDuplication ? qSomeness.removeDuplication(this.url) : this.url;
+      this.url = ENHANCED_METHODS[method](this.url, ...args);
       return this;
     }
-    return qSomeness[method](this.url, ...args);
+    return ENHANCED_METHODS[method](this.url, ...args);
   }
 });
 
