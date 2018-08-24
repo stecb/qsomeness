@@ -3,7 +3,7 @@ const getKV = (param) => {
   const val = param[key];
   return { key, val };
 };
-const isEmpty = val => val === '' || typeof val === 'undefined';
+const isEmpty = val => val === '' || val === undefined || val === null ;
 
 const qSomeness = {
   removeDuplication: (url) => {

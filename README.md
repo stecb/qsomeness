@@ -98,6 +98,9 @@ const { update } = require('qsomeness');
 const newUrl = update('http://google.com?foo=bar', { foo: 'baz' });
 // newUrl => "http://google.com?foo=baz"
 
+const anotherUrl = update('http://google.com?foo=bar', { foo: '' }, { removeEmpty: true });
+// anotherUrl => "http://google.com"
+
 ```
 
 updateMultiple
@@ -107,6 +110,9 @@ const { updateMultiple } = require('qsomeness');
 
 const newUrl = updateMultiple('http://google.com?foo=bar', [{ foo: 'baz' }, { q: 'bizz' }]);
 // newUrl => "http://google.com?foo=baz&q=bizz"
+
+const anotherUrl = updateMultiple('http://google.com?foo=a&bar=b&qux=c', [{ foo: 'baz' }, { bar: null }, { qux: 'bar' }], { removeEmpty: true });
+// anotherUrl => "http://google.com?foo=baz&qux=bar
 
 ```
 

@@ -86,6 +86,9 @@ describe('Update', () => {
   });
   it('correctly updates a querystring param with option removeEmpty and empty string value', () => {
     expect(qSomeness.update('http://google.com?foo=bar', { foo: '' }, { removeEmpty: true })).to.equal('http://google.com');
+  });
+  it('correctly updates a querystring param with option removeEmpty and empty string value', () => {
+    expect(qSomeness.update('http://google.com?foo=bar', { foo: null }, { removeEmpty: true })).to.equal('http://google.com');
   })
 });
 
