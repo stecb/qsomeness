@@ -72,6 +72,21 @@ describe('Update', () => {
   it('correctly updates a querystring param via setting an array of params', () => {
     expect(qSomeness.update('http://google.com?foo=bar', { foo: ['baz', 'boz'] })).to.equal('http://google.com?foo=baz&foo=boz');
   });
+  it('correctly updates a querystring param with an undefined value', () => {
+    expect(qSomeness.update('http://google.com?foo=bar', { foo: undefined })).to.equal('http://google.com?foo=undefined');
+  });
+  it('correctly updates a querystring param with a 0 value', () => {
+    expect(qSomeness.update('http://google.com?foo=bar', { foo: 0 })).to.equal('http://google.com?foo=0');
+  });
+  it('correctly updates a querystring param with a empty string value', () => {
+    expect(qSomeness.update('http://google.com?foo=bar', { foo: '' })).to.equal('http://google.com?foo=');
+  });
+  it('correctly updates a querystring param with option removeEmpty and undefined value', () => {
+    expect(qSomeness.update('http://google.com?foo=bar', { foo: undefined }, { removeEmpty: true })).to.equal('http://google.com');
+  });
+  it('correctly updates a querystring param with option removeEmpty and empty string value', () => {
+    expect(qSomeness.update('http://google.com?foo=bar', { foo: '' }, { removeEmpty: true })).to.equal('http://google.com');
+  })
 });
 
 describe('Update multiple', () => {
@@ -83,6 +98,15 @@ describe('Update multiple', () => {
   });
   it('correctly updates and adds', () => {
     expect(qSomeness.updateMultiple('http://google.com?foo=bar', [{ foo: 'baz' }, { q: 'bizz' }])).to.equal('http://google.com?foo=baz&q=bizz');
+  });
+  it('correctly updates multiple querystring params for undefined values', () => {
+    expect(qSomeness.updateMultiple('http://google.com?foo=bar&q=baz', [{ foo: undefined }, { q: undefined }])).to.equal('http://google.com?foo=undefined&q=undefined');
+  });
+  it('correctly updates multiple querystring params with option removeEmpty', () => {
+    expect(qSomeness.updateMultiple('http://google.com?foo=bar&q=baz&bar=baz', [{ foo: 'a' }, { q: undefined }, { bar: 'bazz' }], { removeEmpty: true })).to.equal('http://google.com?foo=a&bar=bazz');
+  });
+  it('correctly updates all querystring params with option removeEmpty', () => {
+    expect(qSomeness.updateMultiple('http://google.com?foo=bar&q=baz&bar=baz', [{ foo: '' }, { q: '' }, { bar: undefined }], { removeEmpty: true })).to.equal('http://google.com');
   });
 });
 

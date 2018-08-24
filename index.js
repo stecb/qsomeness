@@ -2,7 +2,8 @@ const getKV = (param) => {
   const key = Object.keys(param)[0];
   const val = param[key];
   return { key, val };
-}
+};
+const isEmpty = val => val === '' || typeof val === 'undefined';
 
 const qSomeness = {
   removeDuplication: (url) => {
@@ -36,9 +37,11 @@ const qSomeness = {
       `${url}?${newParams}`;
   },
 
-  update: (url, param) => {
+  update: (url, param, options = {}) => {
     const [urlPart, qs] = url.split('?');
     const { key, val } = getKV(param);
+    if(options.removeEmpty && isEmpty(val))
+      return qSomeness.remove(url, key);
     if (typeof qs !== 'undefined') {
       let found = false;
       const editedQs = qs.split('&').map((qsEl) => {
@@ -54,7 +57,7 @@ const qSomeness = {
     return `${url}?${qSomeness.setParam(key, val)}`;
   },
 
-  updateMultiple: (url, params) => params.reduce((newUrl, currParam) => qSomeness.update(newUrl, currParam), url),
+  updateMultiple: (url, params, options = {}) => params.reduce((newUrl, currParam) => qSomeness.update(newUrl, currParam, options), url),
 
   remove: (url, key) => {
     const [urlPart, qs] = url.split('?');
