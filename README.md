@@ -51,21 +51,6 @@ console.log(myUrlObj.getQuerystringObject()); // { foo: ['baz', 'boz'] };
 
 ```
 
-#### Use in browser
-
-If use qsomeness in browser you can get current url. 
-
-This feature work only in browser, in server-side execution throw Error.
-
-```js 
-const { URLObject } = require('qsomeness');
-
-const myUrlObj = new URLObject();
-
-console.log(myUrlObj.getUrl()); // current url in browser page
-
-```
-
 get
 ---
 ```js
@@ -195,6 +180,21 @@ const myParam = setParam('foo', 'bar');
 
 const myArrayParam = setParam('foo', ['bar', 'baz']);
 // myArrayParam => "foo=bar&foo=baz"
+```
+
+Usage in browser
+--
+
+If you're using qsomeness in the browser, you can get the current window url with getUrl().
+This feature will throw an Error if called from the server.
+
+```js 
+const { URLObject } = require('qsomeness');
+
+const myUrlObj = new URLObject();
+
+console.log(myUrlObj.getUrl()); // current url in browser page
+
 ```
 
 ## Contributing

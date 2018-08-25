@@ -174,7 +174,7 @@ describe('URLObject', () => {
       expect(error.message).to.equal('You should use the new keyword!');
     }
   });
-  it('instantiate empty new URLObject for get current url in browser', () => {
+  it('should return the current url when in the browser', () => {
     process.browser = true;
     const window = global.window;
     global.window = new MockBrowser().getWindow();
@@ -185,11 +185,7 @@ describe('URLObject', () => {
     process.browser = false;
   });
   it('should throw if url is empty and is not in browser', () => {
-    try {
-      const url = new qSomeness.URLObject();
-    } catch (error) {
-      expect(error.message).to.equal('url parameter is mandatory!');
-    }
+    expect(() => new qSomeness.URLObject()).to.throw(Error, 'url parameter is mandatory');
   });
   it('chain methods', () => {
     const url = new qSomeness.URLObject('http://google.com');
