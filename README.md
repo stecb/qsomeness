@@ -51,6 +51,21 @@ console.log(myUrlObj.getQuerystringObject()); // { foo: ['baz', 'boz'] };
 
 ```
 
+#### Use in browser
+
+If use qsomeness in browser you can get current url. 
+
+This feature work only in browser, in server-side execution throw Error.
+
+```js 
+const { URLObject } = require('qsomeness');
+
+const myUrlObj = new URLObject();
+
+console.log(myUrlObj.getUrl()); // current url in browser page
+
+```
+
 get
 ---
 ```js
