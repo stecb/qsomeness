@@ -1,3 +1,4 @@
+const MockBrowser = require('mock-browser').mocks.MockBrowser;
 const expect = require('chai').expect;
 
 const qSomeness = require('../index.js');
@@ -172,6 +173,19 @@ describe('URLObject', () => {
     } catch (error) {
       expect(error.message).to.equal('You should use the new keyword!');
     }
+  });
+  it('should return the current url when in the browser', () => {
+    process.browser = true;
+    const window = global.window;
+    global.window = new MockBrowser().getWindow();
+    const url = new qSomeness.URLObject();
+    expect(url instanceof qSomeness.URLObject).to.be.true;
+    expect(url.url).to.equal('about:blank');
+    global.window = window;
+    process.browser = false;
+  });
+  it('should throw if url is empty and is not in browser', () => {
+    expect(() => new qSomeness.URLObject()).to.throw(Error, 'url parameter is mandatory');
   });
   it('chain methods', () => {
     const url = new qSomeness.URLObject('http://google.com');

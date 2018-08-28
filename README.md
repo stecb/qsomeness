@@ -182,6 +182,21 @@ const myArrayParam = setParam('foo', ['bar', 'baz']);
 // myArrayParam => "foo=bar&foo=baz"
 ```
 
+Usage in browser
+--
+
+If you're using qsomeness in the browser, you can get the current window url with getUrl().
+This feature will throw an Error if called from the server.
+
+```js 
+const { URLObject } = require('qsomeness');
+
+const myUrlObj = new URLObject();
+
+console.log(myUrlObj.getUrl()); // current url in browser page
+
+```
+
 ## Contributing
 
 Just make a PR 🍺

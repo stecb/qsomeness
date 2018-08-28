@@ -137,7 +137,10 @@ function URLObject(url) {
   if (!(this instanceof URLObject)) {
     throw new Error('You should use the new keyword!');
   }
-  this.url = url;
+  if(!url && !process.browser) {
+    throw new Error('url parameter is mandatory!');
+  }
+  this.url = url || window.location.href;
 }
 
 Object.keys(ENHANCED_METHODS).forEach((method) => {
