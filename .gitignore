@@ -62,3 +62,6 @@ typings/
 
 # idea project
 .idea
+
+# dist folder
+dist/

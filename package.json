@@ -2,9 +2,11 @@
   "name": "qsomeness",
   "version": "2.1.0",
   "description": "A zero-dependencies tiny < 5kb tool to work with url querystrings. Works both on server and client.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "mocha ./test"
+    "test": "mocha ./test",
+    "build": "babel index.js -d dist",
+    "install": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,8 @@
   },
   "homepage": "https://github.com/stecb/qsomeness#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
     "husky": "^1.0.0-rc.13",
     "mocha": "^5.2.0",
