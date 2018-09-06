@@ -1,5 +1,5 @@
 # qsomeness
-A zero-dependencies tiny ~ 8kb tool to work with url querystrings. Works both on server and client. It automatically encode/decode params.
+A zero-dependencies tiny ~ 8kb (2.1kb gzipped) tool to work with url querystrings. Works both on server and client. It automatically encode/decode params.
 
 [![Build Status](https://travis-ci.org/stecb/qsomeness.svg?branch=master)](https://travis-ci.org/stecb/qsomeness)
 
