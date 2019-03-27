@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha ./test",
     "build": "babel index.js -d dist",
-    "install": "npm run build"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
