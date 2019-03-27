@@ -29,12 +29,12 @@
   },
   "homepage": "https://github.com/stecb/qsomeness#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
     "chai": "^4.1.2",
     "husky": "^1.0.0-rc.13",
-    "mocha": "^5.2.0",
-    "mock-browser": "^0.92.14"
+    "mocha": "^5.2.0"
   },
   "husky": {
     "hooks": {
